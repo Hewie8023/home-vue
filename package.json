@@ -1,0 +1,63 @@
+{
+  "name": "home",
+  "version": "0.0.0",
+  "description": "home app",
+  "main": "electron/main.js",
+  "author": "Hewie",
+  "homepage": "home.com",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "electron .",
+    "dev-all": "concurrently vite \"nodemon --exec electron . --watch ./ --ext .js,.html,.css,.vue\"",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --linux",
+    "dist1": "electron-builder",
+    "packager": "electron-packager . home-app --platform=linux --arch=armv7l --out=./out --overwrite"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "axios": "^1.7.4",
+    "concurrently": "^8.2.2",
+    "element-plus": "^2.8.0",
+    "vue": "^3.4.29",
+    "vue-router": "^4.4.3",
+    "vue3-mini-weather": "^0.1.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.5",
+    "electron": "^32.0.1",
+    "electron-builder": "^24.13.3",
+    "electron-packager": "^17.1.2",
+    "nodemon": "^3.1.4",
+    "sass-embedded": "^1.77.8",
+    "vite": "^5.3.1"
+  },
+  "build": {
+    "appId": "hewie-home",
+    "productName": "home",
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "electron-dist"
+    },
+    "linux": {
+      "target": "deb"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "deleteAppDataOnUninstall": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "home-app"
+    }
+  }
+}
