@@ -43,6 +43,10 @@ export const addPhoto = (photo) => {
     return http.requestPost(baseUrl + '/photo', photo)
 }
 
+export const batchAddPhoto = (photos) => {
+    return http.requestPost(baseUrl + '/photo/batch', photos)
+}
+
 export const getPhotoList = (page, size) => {
     return http.requestGet(baseUrl + '/photolist/' + page + '/' + size)
 }
@@ -57,6 +61,14 @@ export const getRandomMusic = () => {
 
 export const getLocalMusic = (id) => {
     return http.requestGet(baseUrl + '/music/local?id=' + id)
+}
+
+export const addPhotoType = (photoType) => {
+    return http.requestPost(baseUrl + '/home/photoType', photoType)
+}
+
+export const listPhotoType = (page, size) => {
+    return http.requestGet(baseUrl + '/home/photoType/' + page + '/' + size)
 }
 
 

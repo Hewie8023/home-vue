@@ -21,6 +21,7 @@ const music = () => import("@/page/Music.vue")
 const clock = () => import("@/page/Clock.vue")
 const pics = () => import("@/page/Pics.vue")
 const playMusic = () => import("@/page/PlayMusic.vue")
+const photoType = () => import("@/page/PhotoType.vue")
 const routes = [
     {
         path: '',
@@ -56,6 +57,12 @@ const routes = [
                 icon: 'el-icon-cpu',
                 hidden: false,
                 component: clock
+            },
+            {
+                path: '/photoType',
+                icon: 'el-icon-cpu',
+                hidden: false,
+                component: photoType
             }
         ]
     }

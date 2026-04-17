@@ -8,8 +8,16 @@
           添加照片
         </el-button>
 
+        <el-button type="primary" @click="batchDialogVisible = true">
+          批量添加照片
+        </el-button>
+
         <el-button type="success" @click="goMusic">
           音乐管理
+        </el-button>
+
+        <el-button type="success" @click="goPhotoType">
+          照片类型管理
         </el-button>
 
       </div>
@@ -39,6 +47,33 @@
             <el-button @click="handleCancel">取消</el-button>
             <el-button type="primary" @click="handleSubmit">
               添加
+            </el-button>
+          </div>
+        </template>
+      </el-dialog>
+
+      <el-dialog v-model="batchDialogVisible" :close-on-click-modal=false title="批量添加照片" width="600">
+
+        <el-upload
+            class="batch-uploader"
+            action="/file/oss/upload"
+            :multiple="true"
+            :show-file-list="true"
+            :on-success="handleBatchSuccess"
+            :on-change="handleBatchChange"
+        >
+          <el-button type="primary">点击上传</el-button>
+          <template #tip>
+            <div class="el-upload__tip">
+              只能上传jpg/png文件，且不超过500kb
+            </div>
+          </template>
+        </el-upload>
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button @click="handleBatchCancel">取消</el-button>
+            <el-button type="primary" @click="handleBatchSubmit">
+              批量添加
             </el-button>
           </div>
         </template>
@@ -101,13 +136,15 @@ export default {
       },
       tableData: [],
       dialogFormVisible: false,
+      batchDialogVisible: false,
       imageUrl: '',
       formLabelWidth: '140px',
       pagination: {
         totalCount: 0,
         pageSize: 5,
         currentPage: 1
-      }
+      },
+      batchPhotos: []
     }
   },
 
@@ -115,6 +152,11 @@ export default {
     goMusic() {
       this.$router.push({
         path: '/music',
+      })
+    },
+    goPhotoType() {
+      this.$router.push({
+        path: '/photoType'
       })
     },
     handleCoverSuccess(response) {
@@ -179,6 +221,38 @@ export default {
             type: 'success',
           })
           this.getPhotoList()
+        } else {
+          ElMessage.error(result.data)
+        }
+      })
+    },
+    handleBatchChange(file, fileList) {
+      console.log(file, fileList)
+    },
+    handleBatchSuccess(response) {
+      console.log(response)
+      const photo = {
+        photoName: response.data.name,
+        link: response.data.link,
+        mainColor: response.data.color
+      }
+      this.batchPhotos.push(photo)
+    },
+    handleBatchCancel() {
+      this.batchPhotos = []
+      this.batchDialogVisible = false
+    },
+    handleBatchSubmit() {
+      console.log(this.batchPhotos)
+      api.batchAddPhoto(this.batchPhotos).then(result => {
+        if (result.code === api.SUCCESS_CODE) {
+          ElMessage({
+            message: result.data,
+            type: 'success',
+          })
+          this.batchDialogVisible = false
+          this.getPhotoList()
+          this.handleBatchCancel()
         } else {
           ElMessage.error(result.data)
         }

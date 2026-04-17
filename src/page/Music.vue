@@ -11,6 +11,10 @@
         照片管理
       </el-button>
 
+      <el-button  type="success" @click="goPhotoType">
+        照片类型管理
+      </el-button>
+
       <div class="music-audio">
         <el-tag  style="font-weight: 500; font-size: 14px; color: #0aa370" type="warning">{{curMusicName}}</el-tag>
         <audio  :src="musicUrl" controls ref="musicPlayer" autoplay></audio>
@@ -156,6 +160,11 @@ export default {
     goPhoto() {
       this.$router.push({
         path: '/photo',
+      })
+    },
+    goPhotoType() {
+      this.$router.push({
+        path: '/photoType',
       })
     },
     onPageChange(page) {
